@@ -5,15 +5,16 @@ import TestStrategy from '../pages/TestStrategy'
 import Results from '../pages/Results'
 export default function AppLayout(){
 return <div style={{display:'flex',height:'100vh'}}>
-<aside style={{width:'220px',background:'#0e0f12',padding:'1.5rem'}}>
-<h2>STRATEGY ANALYZER</h2>
-<nav style={{display:'flex',flexDirection:'column',gap:'.8rem',marginTop:'2rem'}}>
-<Link to='/'>Landing</Link>
-<Link to='/dashboard'>Dashboard</Link>
-<Link to='/test'>Test Strategy</Link>
-<Link to='/results'>Results</Link>
-</nav>
+<aside className="sidebar">
+  <h2>STRATEGY ANALYZER</h2>
+  <nav>
+    <Link to="/">Landing</Link>
+    <Link to="/dashboard">Dashboard</Link>
+    <Link to="/test">Test Strategy</Link>
+    <Link to="/results">Results</Link>
+  </nav>
 </aside>
+
 <main style={{flex:1,padding:'2rem',overflowY:'auto'}}>
 <Routes>
 <Route path='/' element={<Landing/>}/>
