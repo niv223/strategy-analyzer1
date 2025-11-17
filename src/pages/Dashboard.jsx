@@ -1,22 +1,17 @@
 export default function Dashboard() {
   return (
-    <div className="page" style={{ display:"flex", justifyContent:"center" }}>
-      <div className="form-card" style={{ width:"100%", maxWidth:"900px" }}>
-        <h1>Dashboard</h1>
-        <p style={{ opacity:.6 }}>
-          Performance analytics will appear here after running strategy tests.
+    <div className="page page-center">
+      <div className="form-card form-animate">
+        <h1 className="page-title">Dashboard</h1>
+        <p className="page-subtitle">
+          Once you start running tests, this space will turn into your performance hub.
         </p>
 
-        <div style={{ 
-          display:"grid", 
-          gridTemplateColumns:"1fr 1fr", 
-          gap:"1.2rem",
-          marginTop:"2rem"
-        }}>
-          <div style={{ height:"180px", background:"#1b1c20", borderRadius:"10px" }}></div>
-          <div style={{ height:"180px", background:"#1b1c20", borderRadius:"10px" }}></div>
-          <div style={{ height:"180px", background:"#1b1c20", borderRadius:"10px" }}></div>
-          <div style={{ height:"180px", background:"#1b1c20", borderRadius:"10px" }}></div>
+        <div className="dash-grid">
+          <div className="dash-card" />
+          <div className="dash-card" />
+          <div className="dash-card" />
+          <div className="dash-card" />
         </div>
       </div>
     </div>
