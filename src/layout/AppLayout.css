@@ -1,0 +1,51 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #0C0D10;
+  color: #E4E6EB;
+}
+
+.app-sidebar {
+  width: 260px;
+  background: #101114;
+  padding: 2rem 1.5rem;
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+
+.logo {
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  margin-bottom: 2.2rem;
+  letter-spacing: 0.12em;
+  opacity: 0.9;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.nav a {
+  color: #b7bac1;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav a:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+.nav a.active {
+  background: linear-gradient(135deg, #0FA57A, #12C48A);
+  color: #fff;
+}
+
+.app-content {
+  flex: 1;
+  padding: 2rem 2.5rem;
+}
