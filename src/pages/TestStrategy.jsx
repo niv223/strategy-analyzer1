@@ -2,14 +2,18 @@ import { useState } from "react";
 
 export default function TestStrategy() {
   const [form, setForm] = useState({
-    instrument: "",
-    session: "",
-    entryType: "",
-    risk: "",
-    rr: "",
-    range: "",
-    conditions: []
-  });
+  instrument: "",
+  session: "",
+  entryType: "",
+  risk: "",
+  rr: "",
+  range: "",
+  conditions: [],
+  indicators: [],
+  notes: "",
+  notesMode: "N4"  // AI interprets + violations checking
+});
+
 
   const update = (key, val) =>
     setForm((prev) => ({ ...prev, [key]: val }));
