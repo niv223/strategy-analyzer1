@@ -1,1 +1,89 @@
-body{margin:0;background:#0b0c0f;color:#fff;font-family:Arial} .form-card{background:#121316;padding:2rem;border-radius:12px;border:1px solid #222;max-width:520px}
+/* GLOBAL */
+body {
+  margin: 0;
+  background: #0A0B0E;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* LAYOUT */
+.sidebar {
+  width: 240px;
+  background: #0F1014;
+  padding: 1.6rem;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.sidebar a {
+  color: #9CA3AF;
+  text-decoration: none;
+  font-size: .95rem;
+  padding: .35rem 0;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  color: #FFFFFF;
+}
+
+/* MAIN CONTENT */
+.page {
+  padding: 2rem 3rem;
+}
+
+/* FORM CARD */
+.form-card {
+  background: #121316;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 0 20px rgba(0,0,0,0.35);
+  width: 100%;
+  max-width: 560px;
+}
+
+/* INPUTS */
+form input,
+form select,
+textarea {
+  width: 100%;
+  background: #0F0F11;
+  color: #fff;
+  padding: .75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.10);
+  margin-bottom: 0.9rem;
+  font-size: .95rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* BUTTONS */
+button {
+  padding: .75rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #0FA57A;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #1C1E22;
+  color: #E5E7EB;
+}
