@@ -17,10 +17,10 @@ return <div style={{display:'flex',height:'100vh'}}>
 
 <main style={{flex:1,padding:'2rem',overflowY:'auto'}}>
 <Routes>
-<Route path='/' element={<Landing/>}/>
-<Route path='/dashboard' element={<Dashboard/>}/>
-<Route path='/test' element={<TestStrategy/>}/>
-<Route path='/results' element={<Results/>}/>
+  <Route path="dashboard" element={<Dashboard />} />
+  <Route path="test" element={<TestStrategy />} />
+  <Route path="results" element={<Results />} />
 </Routes>
+
 </main>
 </div>}
