@@ -108,3 +108,32 @@ body {
 .form-card h1 {
   margin-bottom: 1.2rem;
 }
+.form-card {
+  background: #121316;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 0 20px rgba(0,0,0,0.35);
+  width: 100%;
+  max-width: 520px;
+}
+
+.form-card h1 {
+  margin-bottom: 1.5rem;
+}
+
+form select,
+form input {
+  background: #0F0F11;
+  border: 1px solid rgba(255,255,255,0.09);
+  padding: 0.6rem;
+  border-radius: 6px;
+  color: #fff;
+}
+
+form button {
+  padding: .7rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
