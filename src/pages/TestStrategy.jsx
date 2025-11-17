@@ -55,13 +55,12 @@ export default function TestStrategy() {
         <form onSubmit={handleSubmit} style={{ display: "grid", gap: "1rem" }}>
 
           {/* MAIN FIELDS */}
-          <select onChange={(e) => update("instrument", e.target.value)}>
-            <option value="">Instrument</option>
-            <option>EURUSD</option>
-            <option>GBPUSD</option>
-            <option>XAUUSD</option>
-            <option>US100</option>
-          </select>
+          <input
+  type="text"
+  placeholder="Instrument (ex: EURUSD, NAS100, BTCUSD)"
+  onChange={(e) => update("instrument", e.target.value)}
+/>
+
 
           <select onChange={(e) => update("session", e.target.value)}>
             <option value="">Session</option>
