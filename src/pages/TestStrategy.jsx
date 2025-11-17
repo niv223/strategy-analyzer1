@@ -1,28 +1,6 @@
 import { useState } from "react";
-import OpenAI from "openai";
-
-const client = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_KEY
-});
-
-async function interpretNotes(text) {
-  const prompt = `
-  Convert this trading strategy description into structured JSON rules
-  for backtesting. Use clear known terminology like:
-  "session", "bias", "entry", "indicators", "risk", "filters".
-  Text: """${text}"""
-  Output JSON only.
-  `;
-
-  const response = await client.chat.completions.create({
-    model: "gpt-4.1",
-    messages: [{ role: "user", content: prompt }],
-    temperature: 0
-  });
-
-  return JSON.parse(response.choices[0].message.content);
-}
-
+import { createClient } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 export default function TestStrategy() {
   const [form, setForm] = useState({
@@ -35,306 +13,160 @@ export default function TestStrategy() {
     conditions: [],
     indicators: [],
     notes: "",
-    notesMode: "N4"
+    aiRules: null
   });
 
-  const update = (key, value) =>
-    setForm((prev) => ({ ...prev, [key]: value }));
+  const [newCond, setNewCond] = useState({ type: "", tf: "", note: "" });
+  const [newIndi, setNewIndi] = useState({ type: "", settings: "", tf: "" });
 
-  const [newCond, setNewCond] = useState({
-    type: "",
-    tf: "",
-    note: ""
-  });
+  const navigate = useNavigate();
+  const supabase = createClient(
+    import.meta.env.VITE_SUPABASE_URL,
+    import.meta.env.VITE_SUPABASE_ANON_KEY
+  );
+
+  const update = (key, value) => setForm((p) => ({ ...p, [key]: value }));
 
   const addCondition = () => {
     if (!newCond.type || !newCond.tf) return;
-    setForm((prev) => ({
-      ...prev,
-      conditions: [...prev.conditions, newCond]
+    setForm((p) => ({
+      ...p,
+      conditions: [...p.conditions, newCond],
     }));
     setNewCond({ type: "", tf: "", note: "" });
   };
 
-  const [newIndi, setNewIndi] = useState({
-    type: "",
-    settings: "",
-    tf: ""
-  });
-
   const addIndicator = () => {
     if (!newIndi.type) return;
-    setForm((prev) => ({
-      ...prev,
-      indicators: [...prev.indicators, newIndi]
+    setForm((p) => ({
+      ...p,
+      indicators: [...p.indicators, newIndi],
     }));
     setNewIndi({ type: "", settings: "", tf: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Strategy Params:", form);
+    const payload = {
+      instrument: form.instrument,
+      session: form.session,
+      entry_type: form.entryType,
+      risk: Number(form.risk),
+      rr: Number(form.rr),
+      range: form.range,
+      conditions_json: form.conditions,
+      indicators_json: form.indicators,
+      notes: form.notes,
+      ai_rules: form.aiRules
+    };
+
+    console.log("📤 Saving strategy:", payload);
+
+    const { data, error } = await supabase
+      .from("strategies")
+      .insert(payload)
+      .select()
+      .single();
+
+    if (error) return console.error("❌ Supabase Error:", error);
+
+    console.log("✅ Saved:", data);
+    navigate(`/app/results?id=${data.id}`);
   };
 
   return (
-    <div className="page page-center">
-      <div className="form-card form-animate">
-        <h1 className="page-title">Test Strategy</h1>
-        <p className="page-subtitle">
-          Define your setup, risk parameters and filters.  
-          We’ll turn it into structured data for backtesting and discipline tracking.
-        </p>
+    <div className="page">
+      <h1 className="page-title">Test Strategy</h1>
 
-        <form onSubmit={handleSubmit} className="form-grid">
-          {/* MAIN INFO */}
-          <div className="field-group">
-            <label className="field-label">Instrument</label>
-            <input
-              type="text"
-              placeholder="Ex: EURUSD, NAS100, XAUUSD"
-              className="field-input"
-              onChange={(e) => update("instrument", e.target.value)}
-            />
-          </div>
+      <form className="form" onSubmit={handleSubmit}>
 
-          <div className="field-row-2">
-            <div className="field-group">
-              <label className="field-label">Session</label>
-              <select
-                className="field-input"
-                onChange={(e) => update("session", e.target.value)}
-              >
-                <option value="">Select session</option>
-                <option>London</option>
-                <option>New York</option>
-                <option>Asia</option>
-              </select>
-            </div>
+        <select onChange={(e) => update("instrument", e.target.value)}>
+          <option value="">Instrument</option>
+          <option>EURUSD</option>
+          <option>GBPUSD</option>
+          <option>XAUUSD</option>
+          <option>US100</option>
+        </select>
 
-            <div className="field-group">
-              <label className="field-label">Entry type</label>
-              <select
-                className="field-input"
-                onChange={(e) => update("entryType", e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>Long</option>
-                <option>Short</option>
-                <option>Both</option>
-              </select>
-            </div>
-          </div>
+        <select onChange={(e) => update("session", e.target.value)}>
+          <option value="">Session</option>
+          <option>London</option>
+          <option>New York</option>
+        </select>
 
-          <div className="field-row-2">
-            <div className="field-group">
-              <label className="field-label">Risk % per trade</label>
-              <input
-                type="number"
-                className="field-input"
-                placeholder="Ex: 0.8"
-                onChange={(e) => update("risk", e.target.value)}
-              />
-            </div>
-            <div className="field-group">
-              <label className="field-label">RR target</label>
-              <input
-                type="number"
-                className="field-input"
-                placeholder="Ex: 2.5"
-                onChange={(e) => update("rr", e.target.value)}
-              />
-            </div>
-          </div>
+        <select onChange={(e) => update("entryType", e.target.value)}>
+          <option value="">Entry Type</option>
+          <option>FVG</option>
+          <option>Break & Retest</option>
+          <option>Liquidity Sweep</option>
+        </select>
 
-          <div className="field-group">
-            <label className="field-label">Data range</label>
-            <select
-              className="field-input"
-              onChange={(e) => update("range", e.target.value)}
-            >
-              <option value="">Select range</option>
-              <option>3 Months</option>
-              <option>6 Months</option>
-              <option>1 Year</option>
-              <option>2 Years</option>
-            </select>
-          </div>
+        <input
+          type="number"
+          placeholder="Risk % per trade"
+          onChange={(e) => update("risk", e.target.value)}
+        />
 
-          {/* ENTRY CONDITIONS */}
-          <div className="section-divider" />
-          <h2 className="section-title">Entry conditions</h2>
+        <input
+          type="number"
+          placeholder="RR Target"
+          onChange={(e) => update("rr", e.target.value)}
+        />
 
-          <div className="field-row-2">
-            <div className="field-group">
-              <label className="field-label">Condition type</label>
-              <select
-                className="field-input"
-                value={newCond.type}
-                onChange={(e) =>
-                  setNewCond((p) => ({ ...p, type: e.target.value }))
-                }
-              >
-                <option value="">Select type</option>
-                <option>FVG</option>
-                <option>Liquidity Sweep</option>
-                <option>MSS / BOS</option>
-                <option>Order Block Retest</option>
-                <option>ATR Filter</option>
-              </select>
-            </div>
+        <select onChange={(e) => update("range", e.target.value)}>
+          <option value="">Data Range</option>
+          <option>1 Month</option>
+          <option>3 Months</option>
+          <option>6 Months</option>
+        </select>
 
-            <div className="field-group">
-              <label className="field-label">Timeframe</label>
-              <select
-                className="field-input"
-                value={newCond.tf}
-                onChange={(e) =>
-                  setNewCond((p) => ({ ...p, tf: e.target.value }))
-                }
-              >
-                <option value="">Select TF</option>
-                <option>1m</option>
-                <option>5m</option>
-                <option>15m</option>
-                <option>1H</option>
-                <option>2H</option>
-              </select>
-            </div>
-          </div>
+        <h3>Conditions</h3>
+        <input
+          placeholder="Type"
+          value={newCond.type}
+          onChange={(e) => setNewCond({ ...newCond, type: e.target.value })}
+        />
+        <input
+          placeholder="TF (ex 15m)"
+          value={newCond.tf}
+          onChange={(e) => setNewCond({ ...newCond, tf: e.target.value })}
+        />
+        <input
+          placeholder="Note"
+          value={newCond.note}
+          onChange={(e) => setNewCond({ ...newCond, note: e.target.value })}
+        />
+        <button type="button" onClick={addCondition}>+ Add Condition</button>
 
-          <div className="field-group">
-            <label className="field-label">Note (optional)</label>
-            <input
-              className="field-input"
-              placeholder="Ex: after sweep of Asian low"
-              value={newCond.note}
-              onChange={(e) =>
-                setNewCond((p) => ({ ...p, note: e.target.value }))
-              }
-            />
-          </div>
+        <h3>Indicators</h3>
+        <input
+          placeholder="Indicator name"
+          value={newIndi.type}
+          onChange={(e) => setNewIndi({ ...newIndi, type: e.target.value })}
+        />
+        <input
+          placeholder="Settings"
+          value={newIndi.settings}
+          onChange={(e) => setNewIndi({ ...newIndi, settings: e.target.value })}
+        />
+        <input
+          placeholder="TF"
+          value={newIndi.tf}
+          onChange={(e) => setNewIndi({ ...newIndi, tf: e.target.value })}
+        />
+        <button type="button" onClick={addIndicator}>+ Add Indicator</button>
 
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={addCondition}
-          >
-            + Add condition
-          </button>
+        <h3>Notes</h3>
+        <textarea
+          rows={4}
+          placeholder="Describe strategy notes..."
+          onChange={(e) => update("notes", e.target.value)}
+        />
 
-          {form.conditions.length > 0 && (
-            <div className="list-block">
-              {form.conditions.map((c, i) => (
-                <div key={i} className="list-item">
-                  • {c.type} @ {c.tf} {c.note && `– ${c.note}`}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* INDICATORS / FILTERS */}
-          <div className="section-divider" />
-          <h2 className="section-title">Indicators / filters</h2>
-
-          <div className="field-group">
-            <label className="field-label">Indicator</label>
-            <input
-              className="field-input"
-              placeholder="Ex: RSI, ATR, MA, News filter..."
-              value={newIndi.type}
-              onChange={(e) =>
-                setNewIndi((p) => ({ ...p, type: e.target.value }))
-              }
-            />
-          </div>
-
-          <div className="field-row-2">
-            <div className="field-group">
-              <label className="field-label">Settings</label>
-              <input
-                className="field-input"
-                placeholder="Ex: length=14, ATR(20)"
-                value={newIndi.settings}
-                onChange={(e) =>
-                  setNewIndi((p) => ({ ...p, settings: e.target.value }))
-                }
-              />
-            </div>
-
-            <div className="field-group">
-              <label className="field-label">Timeframe</label>
-              <select
-                className="field-input"
-                value={newIndi.tf}
-                onChange={(e) =>
-                  setNewIndi((p) => ({ ...p, tf: e.target.value }))
-                }
-              >
-                <option value="">Select TF</option>
-                <option>1m</option>
-                <option>5m</option>
-                <option>15m</option>
-                <option>1H</option>
-                <option>4H</option>
-                <option>Daily</option>
-              </select>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={addIndicator}
-          >
-            + Add indicator
-          </button>
-
-          {form.indicators.length > 0 && (
-            <div className="list-block">
-              {form.indicators.map((ind, i) => (
-                <div key={i} className="list-item">
-                  • {ind.type}
-                  {ind.settings && ` (${ind.settings})`}
-                  {ind.tf && ` @ ${ind.tf}`}
-                </div>
-              ))}
-            </div>
-          )}
-          
-
-          {/* NOTES */}
-          <div className="section-divider" />
-          <h2 className="section-title">High-level strategy notes</h2>
-
-          <div className="field-group">
-            <textarea
-              
-              rows={4}
-              className="field-input"
-              placeholder="Describe your high-level rules. Ex: Only trade with Daily + 2H bias. No trades 15m before red news. Continuation days only."
-              onChange={(e) => update("notes", e.target.value)}
-            />
-            <button
-  type="button"
-  className="btn-secondary"
-  style={{ marginTop: "0.5rem" }}
-  onClick={async () => {
-    const json = await interpretNotes(form.notes);
-    console.log("AI RULES:", json);
-
-    // כאן בהמשך נעדכן אוטומטי form.conditions / form.indicators
-  }}
->
-  Convert notes to rules (AI)
-</button>
-
-          </div>
-
-          <button type="submit" className="btn-primary submit-button">
-            Start test
-          </button>
-        </form>
-      </div>
+        <button type="submit" className="btn-primary submit-button">
+          Start Test
+        </button>
+      </form>
     </div>
   );
 }
