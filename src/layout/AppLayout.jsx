@@ -8,7 +8,7 @@ return <div style={{display:'flex',height:'100vh'}}>
 <aside className="sidebar">
   <h2>STRATEGY ANALYZER</h2>
   <nav>
-   <Link to="/app/dashboard">Dashboard</Link>
+<Link to="/app/dashboard">Dashboard</Link>
 <Link to="/app/test">Test Strategy</Link>
 <Link to="/app/results">Results</Link>
 
