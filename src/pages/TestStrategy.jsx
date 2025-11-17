@@ -308,11 +308,26 @@ export default function TestStrategy() {
 
           <div className="field-group">
             <textarea
+              
               rows={4}
               className="field-input"
               placeholder="Describe your high-level rules. Ex: Only trade with Daily + 2H bias. No trades 15m before red news. Continuation days only."
               onChange={(e) => update("notes", e.target.value)}
             />
+            <button
+  type="button"
+  className="btn-secondary"
+  style={{ marginTop: "0.5rem" }}
+  onClick={async () => {
+    const json = await interpretNotes(form.notes);
+    console.log("AI RULES:", json);
+
+    // כאן בהמשך נעדכן אוטומטי form.conditions / form.indicators
+  }}
+>
+  Convert notes to rules (AI)
+</button>
+
           </div>
 
           <button type="submit" className="btn-primary submit-button">
