@@ -1,4 +1,28 @@
 import { useState } from "react";
+import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: import.meta.env.VITE_OPENAI_KEY
+});
+
+async function interpretNotes(text) {
+  const prompt = `
+  Convert this trading strategy description into structured JSON rules
+  for backtesting. Use clear known terminology like:
+  "session", "bias", "entry", "indicators", "risk", "filters".
+  Text: """${text}"""
+  Output JSON only.
+  `;
+
+  const response = await client.chat.completions.create({
+    model: "gpt-4.1",
+    messages: [{ role: "user", content: prompt }],
+    temperature: 0
+  });
+
+  return JSON.parse(response.choices[0].message.content);
+}
+
 
 export default function TestStrategy() {
   const [form, setForm] = useState({
@@ -276,6 +300,7 @@ export default function TestStrategy() {
               ))}
             </div>
           )}
+          
 
           {/* NOTES */}
           <div className="section-divider" />
