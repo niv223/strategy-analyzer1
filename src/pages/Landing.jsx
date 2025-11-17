@@ -8,9 +8,11 @@ export default function Landing() {
         <p className="hero-subtitle">
           Build confidence through proof, not hope.
         </p>
+
         <Link to="/app" className="hero-cta">
           Test Your Strategy
         </Link>
+
         <p className="hero-note">
           No hype. No illusions. Just data. The engine comes next.
         </p>
