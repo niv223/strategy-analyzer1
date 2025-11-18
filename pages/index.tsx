@@ -93,42 +93,140 @@ export default function HomePage() {
   const hasResult = !!result;
 
   // ---------- HERO SCREEN (FULLSCREEN) ----------
-  if (!entered) {
+ if (!entered) {
   return (
-    <div className="sa-landing">
-      <div className="sa-landing-bg" />
+    <div className="landing-page">
+      <div className="landing-bg" />
 
-      <div className="sa-landing-content">
-        <div className="sa-logo-orb-xl">SA</div>
+      <div className="landing-center">
+        <div className="logo-orb">SA</div>
 
-        <h1 className="sa-landing-title">Strategy Analyzer</h1>
+        <h1 className="landing-title">Strategy Analyzer</h1>
 
-        <p className="sa-landing-subtitle">
+        <p className="landing-sub">
           Backtest with confidence — know your edge before risking a cent.
         </p>
 
-        <p className="sa-landing-description">
-          Describe your own strategy — indicators, price action, algo rules,
-          whatever YOU trade. The engine turns it into a data-driven backtest
-          so you can judge the idea by results, not by feelings.
+        <p className="landing-desc">
+          Describe your strategy — indicators, price action, rules, whatever you actually trade.
+          The engine converts it into a data-driven backtest so you can judge the idea by results, not by feelings.
         </p>
 
-        <button
-          className="sa-landing-btn"
-          onClick={() => setEntered(true)}
-        >
+        <button className="landing-btn" onClick={() => setEntered(true)}>
           Enter app
         </button>
 
-        <p className="sa-landing-note">
+        <p className="landing-note">
           Works with any style — indicators, naked charts, swing, intraday.
         </p>
       </div>
 
-      <style jsx global>{landingStyles}</style>
+      <style jsx global>{landingFix}</style>
     </div>
   );
 }
+const landingFix = `
+  .landing-page {
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+  }
+
+  .landing-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(59,130,246,0.35), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(16,185,129,0.35), transparent 55%),
+      radial-gradient(circle at 50% 160%, rgba(34,197,94,0.15), transparent 60%);
+    filter: blur(20px);
+    z-index: 1;
+  }
+
+  .landing-center {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    padding: 0 40px;
+    position: relative;
+    z-index: 5;
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .logo-orb {
+    width: 90px;
+    height: 90px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 0, #38bdf8 0, #1d4ed8 40%, #020617 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: #e5e7eb;
+    margin: 0 auto 26px;
+    box-shadow: 0 28px 110px rgba(37,99,235,0.8);
+  }
+
+  .landing-title {
+    font-size: 64px;
+    color: #fff;
+    margin: 0 0 12px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .landing-sub {
+    font-size: 26px;
+    color: #d1d5db;
+    margin-bottom: 18px;
+  }
+
+  .landing-desc {
+    font-size: 18px;
+    color: #9ca3af;
+    max-width: 650px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+
+  .landing-btn {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none;
+    border-radius: 999px;
+    padding: 18px 58px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #022c22;
+    box-shadow: 0 30px 80px rgba(22,163,74,0.6);
+    transition: 0.25s ease;
+  }
+
+  .landing-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 40px 120px rgba(22,163,74,0.9);
+  }
+
+  .landing-note {
+    margin-top: 22px;
+    font-size: 15px;
+    color: #64748b;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`;
 
 
   // ---------- APP LAYOUT (BLACK LUXURY, WIDE) ----------
