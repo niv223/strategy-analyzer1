@@ -94,40 +94,42 @@ export default function HomePage() {
 
   // ---------- HERO SCREEN (FULLSCREEN) ----------
   if (!entered) {
-    return (
-      <div className="sa-root-dark">
-        <div className="sa-hero-wrap">
-          <div className="sa-hero-bg" />
-          <div className="sa-hero-card">
-            <div className="sa-logo-orb">SA</div>
-            <h1 className="sa-hero-title">Strategy Analyzer</h1>
-            <p className="sa-hero-subtitle">
-              Backtest with confidence — know your edge before risking a cent.
-            </p>
-            <p className="sa-hero-text">
-              Describe your own strategy in your own words – indicators,
-              price action, algo rules, whatever you actually trade.  
-              The engine turns it into a data-driven backtest so you can judge
-              the idea by results, not by feelings.
-            </p>
+  return (
+    <div className="sa-landing">
+      <div className="sa-landing-bg" />
 
-            <button
-              className="sa-hero-btn"
-              onClick={() => setEntered(true)}
-            >
-              Enter app
-            </button>
+      <div className="sa-landing-content">
+        <div className="sa-logo-orb-xl">SA</div>
 
-            <div className="sa-hero-footnote">
-              Works with any style – indicators, naked charts, swing, intraday.
-            </div>
-          </div>
-        </div>
+        <h1 className="sa-landing-title">Strategy Analyzer</h1>
 
-        <style jsx global>{globalDarkStyles}</style>
+        <p className="sa-landing-subtitle">
+          Backtest with confidence — know your edge before risking a cent.
+        </p>
+
+        <p className="sa-landing-description">
+          Describe your own strategy — indicators, price action, algo rules,
+          whatever YOU trade. The engine turns it into a data-driven backtest
+          so you can judge the idea by results, not by feelings.
+        </p>
+
+        <button
+          className="sa-landing-btn"
+          onClick={() => setEntered(true)}
+        >
+          Enter app
+        </button>
+
+        <p className="sa-landing-note">
+          Works with any style — indicators, naked charts, swing, intraday.
+        </p>
       </div>
-    );
-  }
+
+      <style jsx global>{landingStyles}</style>
+    </div>
+  );
+}
+
 
   // ---------- APP LAYOUT (BLACK LUXURY, WIDE) ----------
   return (
