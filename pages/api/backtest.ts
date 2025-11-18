@@ -8,20 +8,18 @@ export default async function handler(
   res: NextApiResponse<BacktestResponse | { error: string }>
 ) {
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
     const body = req.body as BacktestRequest;
 
     if (!body.symbol || !body.timeframe || !body.candles || !body.strategyText) {
-      res.status(400).json({ error: "Missing required fields" });
-      return;
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
     // Fetch candles from TwelveData
-    const interval = body.timeframe; // e.g. "1h", "15min"
+    const interval = body.timeframe;
     const candles = await fetchCandlesFromTwelveData({
       symbol: body.symbol,
       interval,
@@ -69,37 +67,45 @@ Rules:
 - Use the candles realistically to decide entries and exits based on the strategy text.
 - DO NOT add explanation, markdown, or commentary. Only return raw JSON.
 
-Strategy description (free text):
+Strategy description:
 ${body.strategyText}
 
-Candles (JSON):
+Candles:
 ${JSON.stringify(candles).slice(0, 12000)}
     `.trim();
 
+    // --- OpenAI call (NEW API FORMAT) ---
     const completion = await openai.responses.create({
       model: "gpt-4.1-mini",
       input: prompt
     });
 
-   completion.output_text
-
+    // The model returns plain text JSON
+    const raw = completion.output_text;
 
     let parsed: BacktestResponse;
+
+    // First attempt direct parse
     try {
       parsed = JSON.parse(raw) as BacktestResponse;
     } catch {
+      // If the model wrapped the JSON with text around it
       const start = raw.indexOf("{");
       const end = raw.lastIndexOf("}");
+
       if (start === -1 || end === -1) {
         throw new Error("Model did not return JSON");
       }
+
       const jsonText = raw.slice(start, end + 1);
       parsed = JSON.parse(jsonText) as BacktestResponse;
     }
 
-    res.status(200).json(parsed);
+    return res.status(200).json(parsed);
   } catch (err: any) {
     console.error("Backtest API error:", err);
-    res.status(500).json({ error: "Backtest failed: " + String(err.message || err) });
+    return res.status(500).json({
+      error: "Backtest failed: " + String(err.message || err)
+    });
   }
 }
