@@ -81,7 +81,8 @@ ${JSON.stringify(candles).slice(0, 12000)}
       input: prompt
     });
 
-    const raw = completion.output[0].content[0].text;
+   completion.output_text
+
 
     let parsed: BacktestResponse;
     try {
