@@ -92,33 +92,34 @@ export default function HomePage() {
 
   const hasResult = !!result;
 
-  // ---------- HERO SCREEN ----------
+  // ---------- HERO SCREEN (FULLSCREEN) ----------
   if (!entered) {
     return (
-      <div className="sa-root sa-root-dark">
-        <div className="sa-hero-dark sa-hero-full">
-          <div className="sa-hero-glow" />
-          <div className="sa-hero-card-dark sa-hero-card-clean">
+      <div className="sa-root-dark">
+        <div className="sa-hero-wrap">
+          <div className="sa-hero-bg" />
+          <div className="sa-hero-card">
             <div className="sa-logo-orb">SA</div>
-            <h1 className="sa-hero-title-dark">Strategy Analyzer</h1>
-            <p className="sa-hero-subtitle-dark">
+            <h1 className="sa-hero-title">Strategy Analyzer</h1>
+            <p className="sa-hero-subtitle">
               Backtest with confidence — know your edge before risking a cent.
             </p>
-            <p className="sa-hero-text-dark">
-              Define your strategy, select a symbol and timeframe, and let the
-              engine simulate trades, stats and an equity curve so you can make
-              decisions based on data, not emotions.
+            <p className="sa-hero-text">
+              Describe your own strategy in your own words – indicators,
+              price action, algo rules, whatever you actually trade.  
+              The engine turns it into a data-driven backtest so you can judge
+              the idea by results, not by feelings.
             </p>
 
             <button
-              className="sa-hero-btn-dark"
+              className="sa-hero-btn"
               onClick={() => setEntered(true)}
             >
               Enter app
             </button>
 
-            <div className="sa-hero-footnote-dark">
-              Built for precision traders. No noise. No indicators circus.
+            <div className="sa-hero-footnote">
+              Works with any style – indicators, naked charts, swing, intraday.
             </div>
           </div>
         </div>
@@ -128,56 +129,56 @@ export default function HomePage() {
     );
   }
 
-  // ---------- APP WITH SIDEBAR ----------
+  // ---------- APP LAYOUT (BLACK LUXURY, WIDE) ----------
   return (
-    <div className="sa-root sa-root-dark">
-      <div className="sa-shell-dark">
-        {/* SIDEBAR */}
-        <aside className="sa-sidebar-dark">
-          <div className="sa-sidebar-logo">
-            <div className="sa-logo-orb sa-logo-orb-small">SA</div>
-            <span className="sa-sidebar-title">Strategy Analyzer</span>
-          </div>
+    <div className="sa-root-dark">
+      <div className="sa-shell">
+        {/* SIDEBAR – ALL CONTENT AT TOP */}
+        <aside className="sa-sidebar">
+          <div className="sa-sidebar-top">
+            <div className="sa-sidebar-logo">
+              <div className="sa-logo-orb sa-logo-orb-small">SA</div>
+              <div className="sa-sidebar-brand">
+                <span className="sa-sidebar-name">Strategy Analyzer</span>
+                <span className="sa-sidebar-tagline">
+                  Your rules. Your data.
+                </span>
+              </div>
+            </div>
 
-          <nav className="sa-sidebar-nav">
-            <SidebarButton
-              label="Setup"
-              active={activeTab === "setup"}
-              onClick={() => setActiveTab("setup")}
-            />
-            <SidebarButton
-              label="Dashboard"
-              active={activeTab === "dashboard"}
-              onClick={() => setActiveTab("dashboard")}
-            />
-            <SidebarButton
-              label="Statistics"
-              active={activeTab === "stats"}
-              onClick={() => setActiveTab("stats")}
-            />
-          </nav>
-
-          <div className="sa-sidebar-footer">
-            <span className="sa-tag sa-tag-soft">Alpha build</span>
+            <nav className="sa-sidebar-nav">
+              <SidebarButton
+                label="Setup"
+                active={activeTab === "setup"}
+                onClick={() => setActiveTab("setup")}
+              />
+              <SidebarButton
+                label="Dashboard"
+                active={activeTab === "dashboard"}
+                onClick={() => setActiveTab("dashboard")}
+              />
+              <SidebarButton
+                label="Statistics"
+                active={activeTab === "stats"}
+                onClick={() => setActiveTab("stats")}
+              />
+            </nav>
           </div>
         </aside>
 
         {/* MAIN PANEL */}
-        <main className="sa-main-dark">
-          {/* TOP BAR */}
-          <header className="sa-main-header-dark">
+        <main className="sa-main">
+          <header className="sa-main-header">
             <div>
-              <div className="sa-app-title-dark">Workspace</div>
-              <div className="sa-app-subtitle-dark">
-                AI-powered backtesting environment
+              <div className="sa-main-title">Trading workspace</div>
+              <div className="sa-main-subtitle">
+                Backtest any strategy – indicators or pure price action.
               </div>
             </div>
 
             {hasResult && (
               <div className="sa-main-summary">
-                <span className="sa-main-summary-label">
-                  Last run • Winrate
-                </span>
+                <span className="sa-main-summary-label">Last winrate</span>
                 <span className="sa-main-summary-value">
                   {(result!.stats.winrate * 100).toFixed(1)}%
                 </span>
@@ -185,17 +186,17 @@ export default function HomePage() {
             )}
           </header>
 
-          {/* CONTENT BY TAB */}
+          {/* TAB CONTENT */}
           {activeTab === "setup" && (
-            <section className="sa-tab-layout">
-              <div className="sa-card-dark sa-form-card-dark">
-                <h2 className="sa-section-title-dark">Setup</h2>
+            <section className="sa-tab-grid">
+              <div className="sa-card sa-card-form">
+                <h2 className="sa-section-title">Setup</h2>
 
-                <div className="sa-form-grid-2col">
-                  <div className="sa-field-dark">
-                    <label className="sa-label-dark">Symbol</label>
+                <div className="sa-form-grid">
+                  <div className="sa-field">
+                    <label className="sa-label">Symbol</label>
                     <input
-                      className="sa-input-dark"
+                      className="sa-input"
                       value={symbol}
                       onChange={(e) =>
                         setSymbol(e.target.value.toUpperCase())
@@ -204,56 +205,56 @@ export default function HomePage() {
                     />
                   </div>
 
-                  <div className="sa-field-dark">
-                    <label className="sa-label-dark">Timeframe</label>
+                  <div className="sa-field">
+                    <label className="sa-label">Timeframe</label>
                     <input
-                      className="sa-input-dark"
+                      className="sa-input"
                       value={timeframe}
                       onChange={(e) => setTimeframe(e.target.value)}
                       placeholder="1h, 15min, 5min..."
                     />
                   </div>
 
-                  <div className="sa-field-dark">
-                    <label className="sa-label-dark">From</label>
+                  <div className="sa-field">
+                    <label className="sa-label">From date</label>
                     <input
                       type="date"
-                      className="sa-input-dark"
+                      className="sa-input"
                       value={fromDate}
                       onChange={(e) => setFromDate(e.target.value)}
                     />
                   </div>
 
-                  <div className="sa-field-dark">
-                    <label className="sa-label-dark">To</label>
+                  <div className="sa-field">
+                    <label className="sa-label">To date</label>
                     <input
                       type="date"
-                      className="sa-input-dark"
+                      className="sa-input"
                       value={toDate}
                       onChange={(e) => setToDate(e.target.value)}
                     />
                   </div>
                 </div>
 
-                <div className="sa-field-dark sa-field-textarea-dark">
-                  <label className="sa-label-dark">Strategy description</label>
+                <div className="sa-field sa-field-textarea">
+                  <label className="sa-label">Strategy description</label>
                   <textarea
-                    className="sa-textarea-dark"
+                    className="sa-textarea"
                     value={strategyText}
                     onChange={(e) => setStrategyText(e.target.value)}
-                    placeholder={`Example:
-- Daily bias from HTF
-- Entry after liquidity sweep + MSS
-- Use FVG for entry
-- 1% risk per trade, 2.5R target`}
+                    placeholder={`Explain YOUR system, not ours. Example:
+- HTF bias (daily/4h)
+- Entry: break + retest with EMA + RSI filter
+- Or: liquidity sweep + MSS + FVG
+- Risk per trade, RR target, when you skip trades`}
                   />
                 </div>
 
                 <button
                   className={
                     state === "loading"
-                      ? "sa-primary-btn-dark sa-primary-btn-dark-disabled"
-                      : "sa-primary-btn-dark"
+                      ? "sa-primary-btn sa-primary-btn-disabled"
+                      : "sa-primary-btn"
                   }
                   onClick={handleRunBacktest}
                   disabled={state === "loading"}
@@ -264,33 +265,35 @@ export default function HomePage() {
                 </button>
 
                 {state === "error" && error && (
-                  <p className="sa-msg-error-dark">{error}</p>
+                  <p className="sa-msg-error">{error}</p>
                 )}
                 {state === "done" && !error && (
-                  <p className="sa-msg-success-dark">
-                    Backtest complete. Check the Dashboard and Statistics tabs.
+                  <p className="sa-msg-success">
+                    Backtest complete. Check the dashboard and statistics.
                   </p>
                 )}
               </div>
 
-              <div className="sa-card-dark sa-help-card-dark">
-                <h3 className="sa-subtitle-dark">How to write a clean setup</h3>
+              <div className="sa-card sa-card-help">
+                <h3 className="sa-subtitle">How to describe your own strategy</h3>
                 <ul className="sa-help-list">
-                  <li>Define your HTF bias (daily / 4h).</li>
-                  <li>Explain what counts as a liquidity sweep.</li>
-                  <li>Describe your MSS + FVG entry criteria.</li>
-                  <li>State exact RR targets and stop rules.</li>
+                  <li>Write what YOU actually trade – not a template.</li>
+                  <li>Include any indicators you use (EMA, RSI, VWAP, etc.).</li>
+                  <li>Explain entries, exits, risk and when you stay out.</li>
+                  <li>
+                    The engine doesn&apos;t judge style – it just tests the rules.
+                  </li>
                 </ul>
               </div>
             </section>
           )}
 
           {activeTab === "dashboard" && (
-            <section className="sa-tab-layout">
-              <div className="sa-card-dark sa-stats-card-dark">
-                <h2 className="sa-section-title-dark">Dashboard</h2>
+            <section className="sa-tab-stack">
+              <div className="sa-card">
+                <h2 className="sa-section-title">Dashboard</h2>
                 {hasResult ? (
-                  <div className="sa-stats-grid-dark">
+                  <div className="sa-stats-grid">
                     <StatPill
                       label="Winrate"
                       value={`${(result!.stats.winrate * 100).toFixed(1)}%`}
@@ -309,31 +312,31 @@ export default function HomePage() {
                     />
                   </div>
                 ) : (
-                  <p className="sa-placeholder-dark">
+                  <p className="sa-placeholder">
                     Run a backtest in the Setup tab to populate your dashboard.
                   </p>
                 )}
               </div>
 
-              <div className="sa-bottom-row-dark">
-                <div className="sa-card-dark sa-equity-card-dark">
-                  <h3 className="sa-subtitle-dark">Equity curve (R)</h3>
+              <div className="sa-row">
+                <div className="sa-card sa-card-equity">
+                  <h3 className="sa-subtitle">Equity curve (R)</h3>
                   {hasResult && result!.equityCurve.length > 1 ? (
                     <EquityCurveMini points={result!.equityCurve} />
                   ) : (
-                    <p className="sa-placeholder-small-dark">
+                    <p className="sa-placeholder-small">
                       Equity curve will appear here once you have trades.
                     </p>
                   )}
                 </div>
 
-                <div className="sa-card-dark sa-trades-card-dark">
-                  <h3 className="sa-subtitle-dark">Recent trades</h3>
+                <div className="sa-card sa-card-trades">
+                  <h3 className="sa-subtitle">Recent trades</h3>
                   {hasResult && result!.trades.length > 0 ? (
-                    <TradesMini trades={result!.trades.slice(0, 7)} />
+                    <TradesMini trades={result!.trades.slice(0, 8)} />
                   ) : (
-                    <p className="sa-placeholder-small-dark">
-                      No trades yet. Run a backtest to see a summary.
+                    <p className="sa-placeholder-small">
+                      No trades yet. Run a backtest to see a trade list.
                     </p>
                   )}
                 </div>
@@ -342,11 +345,11 @@ export default function HomePage() {
           )}
 
           {activeTab === "stats" && (
-            <section className="sa-tab-layout">
-              <div className="sa-card-dark sa-stats-card-dark">
-                <h2 className="sa-section-title-dark">Statistics</h2>
+            <section className="sa-tab-stack">
+              <div className="sa-card">
+                <h2 className="sa-section-title">Statistics</h2>
                 {hasResult ? (
-                  <div className="sa-stats-detail-grid">
+                  <div className="sa-stats-detail">
                     <StatRow
                       label="Winrate"
                       value={`${(result!.stats.winrate * 100).toFixed(2)}%`}
@@ -369,9 +372,9 @@ export default function HomePage() {
                     />
                   </div>
                 ) : (
-                  <p className="sa-placeholder-dark">
+                  <p className="sa-placeholder">
                     You&apos;ll see detailed statistics here after your first
-                    backtest run.
+                    backtest.
                   </p>
                 )}
               </div>
@@ -385,7 +388,7 @@ export default function HomePage() {
   );
 }
 
-// ---------- SMALL COMPONENTS ----------
+/* ---------- SMALL COMPONENTS ---------- */
 
 function SidebarButton({
   label,
@@ -403,7 +406,7 @@ function SidebarButton({
       }
       onClick={onClick}
     >
-      <span className="sa-sidebar-bullet" />
+      <span className="sa-sidebar-dot" />
       <span>{label}</span>
     </button>
   );
@@ -411,9 +414,9 @@ function SidebarButton({
 
 function StatPill({ label, value }: { label: string; value: string }) {
   return (
-    <div className="sa-stat-pill-dark">
-      <div className="sa-stat-label-dark">{label}</div>
-      <div className="sa-stat-value-dark">{value}</div>
+    <div className="sa-stat-pill">
+      <div className="sa-stat-label">{label}</div>
+      <div className="sa-stat-value">{value}</div>
     </div>
   );
 }
@@ -434,8 +437,8 @@ function EquityCurveMini({
 }) {
   if (!points.length) return null;
 
-  const width = 320;
-  const height = 110;
+  const width = 380;
+  const height = 140;
   const padding = 10;
 
   const equities = points.map((p) => p.equity);
@@ -458,10 +461,7 @@ function EquityCurveMini({
     .join(" ");
 
   return (
-    <svg
-      className="sa-equity-svg-dark"
-      viewBox={`0 0 ${width} ${height}`}
-    >
+    <svg className="sa-equity-svg" viewBox={`0 0 ${width} ${height}`}>
       <path
         d={path}
         fill="none"
@@ -480,7 +480,7 @@ function TradesMini({
   trades: BacktestResponse["trades"];
 }) {
   return (
-    <div className="sa-trades-list-dark">
+    <div className="sa-trades-list">
       {trades.map((t) => {
         const isWin = t.result === "win";
         const isLoss = t.result === "loss";
@@ -500,19 +500,16 @@ function TradesMini({
         };
 
         return (
-          <div key={t.id} className="sa-trade-row-dark">
-            <div className="sa-trade-main-dark">
-              <span
-                className="sa-trade-badge-dark"
-                style={badgeStyle}
-              >
+          <div key={t.id} className="sa-trade-row">
+            <div className="sa-trade-main">
+              <span className="sa-trade-badge" style={badgeStyle}>
                 {t.result.toUpperCase()}
               </span>
-              <span className="sa-trade-main-text-dark">
+              <span className="sa-trade-main-text">
                 {t.direction.toUpperCase()} · {t.rr.toFixed(2)}R
               </span>
             </div>
-            <div className="sa-trade-sub-dark">
+            <div className="sa-trade-sub">
               {t.entryTime} → {t.exitTime}
             </div>
           </div>
@@ -522,7 +519,7 @@ function TradesMini({
   );
 }
 
-// ---------- GLOBAL DARK STYLES ----------
+/* ---------- GLOBAL STYLES (BLACK LUXURY) ---------- */
 
 const globalDarkStyles = `
   :root {
@@ -533,7 +530,7 @@ const globalDarkStyles = `
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       sans-serif;
-    background: radial-gradient(circle at top, #020617 0, #020617 45%, #000 100%);
+    background: radial-gradient(circle at top, #020617 0, #020617 40%, #000 100%);
     color: #e5e7eb;
   }
 
@@ -546,59 +543,53 @@ const globalDarkStyles = `
     display: flex;
     align-items: stretch;
     justify-content: center;
-    padding: 24px 16px 32px;
+    padding: 0;
   }
 
-  /* HERO */
+  /* HERO FULLSCREEN */
 
-  .sa-hero-full {
-    min-height: calc(100vh - 56px);
-  }
-
-  .sa-hero-dark {
+  .sa-hero-wrap {
     position: relative;
-    max-width: 1120px;
+    min-height: 100vh;
     width: 100%;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
-  .sa-hero-glow {
+  .sa-hero-bg {
     position: absolute;
-    inset: -20%;
+    inset: 0;
     background:
-      radial-gradient(circle at 10% 0, rgba(59,130,246,0.35) 0, transparent 55%),
-      radial-gradient(circle at 90% 100%, rgba(16,185,129,0.35) 0, transparent 55%);
-    opacity: 0.9;
-    filter: blur(6px);
+      radial-gradient(circle at 0% 0%, rgba(59,130,246,0.35), transparent 55%),
+      radial-gradient(circle at 100% 100%, rgba(16,185,129,0.45), transparent 55%),
+      radial-gradient(circle at 50% 120%, rgba(251,191,36,0.12), transparent 60%);
+    opacity: 0.95;
+    filter: blur(4px);
     pointer-events: none;
   }
 
-  .sa-hero-card-dark {
+  .sa-hero-card {
     position: relative;
-    border-radius: 26px;
-    padding: 40px 42px 34px;
+    max-width: 720px;
     width: 100%;
-    max-width: 640px;
+    margin: 0 24px;
+    border-radius: 28px;
+    padding: 46px 44px 38px;
+    background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617);
     border: 1px solid rgba(15,23,42,0.95);
     box-shadow:
-      0 24px 90px rgba(0,0,0,0.95),
+      0 32px 120px rgba(0,0,0,0.95),
       0 0 0 1px rgba(15,23,42,0.9);
-    backdrop-filter: blur(30px);
     text-align: center;
     z-index: 1;
     animation: saHeroIn 0.9s ease-out;
   }
 
-  .sa-hero-card-clean {
-    background: radial-gradient(circle at top, #020617 0, #020617 55%, #020617);
-  }
-
   .sa-logo-orb {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     border-radius: 999px;
     background:
       radial-gradient(circle at 30% 0, #38bdf8 0, #1d4ed8 40%, #020617 100%);
@@ -608,59 +599,59 @@ const globalDarkStyles = `
     font-weight: 700;
     font-size: 20px;
     color: #e5e7eb;
-    margin: 0 auto 12px;
-    box-shadow: 0 18px 55px rgba(37,99,235,0.8);
+    margin: 0 auto 14px;
+    box-shadow: 0 22px 65px rgba(37,99,235,0.9);
   }
 
-  .sa-hero-title-dark {
+  .sa-hero-title {
     margin: 0;
-    font-size: 38px;
-    letter-spacing: -0.04em;
+    font-size: 40px;
+    letter-spacing: -0.05em;
     color: #f9fafb;
   }
 
-  .sa-hero-subtitle-dark {
-    margin: 10px 0 10px;
-    font-size: 17px;
+  .sa-hero-subtitle {
+    margin: 12px 0 12px;
+    font-size: 18px;
     color: #e5e7eb;
   }
 
-  .sa-hero-text-dark {
-    margin: 0 0 24px;
+  .sa-hero-text {
+    margin: 0 0 26px;
     font-size: 14px;
     color: #9ca3af;
-    max-width: 520px;
+    max-width: 540px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .sa-hero-btn-dark {
+  .sa-hero-btn {
     border: none;
     border-radius: 999px;
-    padding: 10px 26px;
+    padding: 11px 32px;
     font-size: 15px;
     font-weight: 600;
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: #052e16;
     cursor: pointer;
-    box-shadow: 0 20px 55px rgba(34,197,94,0.6);
+    box-shadow: 0 24px 70px rgba(34,197,94,0.7);
     transform: translateY(0);
     transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
   }
 
-  .sa-hero-btn-dark:hover {
+  .sa-hero-btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 24px 70px rgba(34,197,94,0.8);
+    box-shadow: 0 30px 90px rgba(34,197,94,0.9);
     filter: brightness(1.05);
   }
 
-  .sa-hero-btn-dark:active {
+  .sa-hero-btn:active {
     transform: translateY(1px) scale(0.99);
-    box-shadow: 0 16px 42px rgba(34,197,94,0.6);
+    box-shadow: 0 18px 50px rgba(34,197,94,0.75);
   }
 
-  .sa-hero-footnote-dark {
-    margin-top: 14px;
+  .sa-hero-footnote {
+    margin-top: 16px;
     font-size: 12px;
     color: #64748b;
   }
@@ -668,7 +659,7 @@ const globalDarkStyles = `
   @keyframes saHeroIn {
     from {
       opacity: 0;
-      transform: translateY(10px) scale(0.98);
+      transform: translateY(10px) scale(0.97);
     }
     to {
       opacity: 1;
@@ -676,46 +667,62 @@ const globalDarkStyles = `
     }
   }
 
-  /* SHELL + SIDEBAR */
+  /* APP SHELL – WIDE LAYOUT */
 
-  .sa-shell-dark {
-    max-width: 1120px;
+  .sa-shell {
+    max-width: 1360px;
     width: 100%;
-    margin: 0 auto;
+    margin: 24px auto 32px;
+    padding: 0 20px;
     display: grid;
-    grid-template-columns: 230px minmax(0, 1fr);
+    grid-template-columns: 220px minmax(0, 1fr);
     gap: 18px;
   }
 
-  .sa-sidebar-dark {
-    border-radius: 18px;
+  .sa-sidebar {
+    border-radius: 20px;
     padding: 16px 14px 14px;
-    background: radial-gradient(circle at top, #020617 0, #020617 65%, #020617);
+    background: #020617;
     border: 1px solid rgba(15,23,42,0.95);
-    box-shadow: 0 22px 80px rgba(0,0,0,0.95);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.95);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .sa-sidebar-top {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
   .sa-sidebar-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
   }
 
   .sa-logo-orb-small {
     width: 34px;
     height: 34px;
     font-size: 15px;
-    box-shadow: 0 14px 40px rgba(15,23,42,0.9);
+    box-shadow: 0 16px 45px rgba(15,23,42,0.9);
   }
 
-  .sa-sidebar-title {
+  .sa-sidebar-brand {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sa-sidebar-name {
     font-size: 14px;
     font-weight: 600;
     color: #e5e7eb;
+  }
+
+  .sa-sidebar-tagline {
+    font-size: 11px;
+    color: #64748b;
   }
 
   .sa-sidebar-nav {
@@ -733,7 +740,7 @@ const globalDarkStyles = `
     border: none;
     background: transparent;
     color: #9ca3af;
-    padding: 6px 9px;
+    padding: 7px 10px;
     font-size: 13px;
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
@@ -750,61 +757,41 @@ const globalDarkStyles = `
     color: #022c22;
   }
 
-  .sa-sidebar-btn-active .sa-sidebar-bullet {
-    background: rgba(15,23,42,0.9);
-  }
-
-  .sa-sidebar-bullet {
+  .sa-sidebar-dot {
     width: 7px;
     height: 7px;
     border-radius: 999px;
-    background: rgba(148,163,184,0.7);
+    background: rgba(148,163,184,0.8);
   }
 
-  .sa-sidebar-footer {
-    margin-top: 20px;
+  .sa-sidebar-btn-active .sa-sidebar-dot {
+    background: rgba(15,23,42,0.95);
   }
 
-  .sa-tag {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(59,130,246,0.7);
-    background: rgba(15,23,42,0.9);
-    color: #bfdbfe;
-  }
-
-  .sa-tag-soft {
-    border-color: rgba(148,163,184,0.6);
-    color: #cbd5f5;
-  }
-
-  /* MAIN PANEL */
-
-  .sa-main-dark {
-    border-radius: 18px;
-    padding: 16px 18px 18px;
+  .sa-main {
+    border-radius: 20px;
+    padding: 18px 20px 20px;
     background: radial-gradient(circle at top left, #020617 0, #020617 55%, #020617);
     border: 1px solid rgba(15,23,42,0.95);
-    box-shadow: 0 22px 80px rgba(0,0,0,0.95);
+    box-shadow: 0 24px 80px rgba(0,0,0,0.95);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
   }
 
-  .sa-main-header-dark {
+  .sa-main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .sa-app-title-dark {
-    font-size: 16px;
+  .sa-main-title {
+    font-size: 18px;
     font-weight: 600;
     color: #e5e7eb;
   }
 
-  .sa-app-subtitle-dark {
+  .sa-main-subtitle {
     font-size: 12px;
     color: #64748b;
   }
@@ -827,29 +814,35 @@ const globalDarkStyles = `
     color: #22c55e;
   }
 
-  /* TAB LAYOUT */
+  /* TABS */
 
-  .sa-tab-layout {
+  .sa-tab-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
-    gap: 14px;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+    gap: 16px;
     align-items: flex-start;
   }
 
-  .sa-card-dark {
-    background: radial-gradient(circle at top left, #020617 0, #020617 45%, #020617 100%);
+  .sa-tab-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sa-card {
+    background: radial-gradient(circle at top left, #020617 0, #020617 45%, #020617);
     border-radius: 18px;
     padding: 18px 20px;
     border: 1px solid rgba(31,41,55,0.9);
     box-shadow: 0 18px 55px rgba(0,0,0,0.9);
   }
 
-  .sa-form-card-dark {
+  .sa-card-form {
     position: relative;
     overflow: hidden;
   }
 
-  .sa-form-card-dark::before {
+  .sa-card-form::before {
     content: "";
     position: absolute;
     inset: -40%;
@@ -859,38 +852,38 @@ const globalDarkStyles = `
     pointer-events: none;
   }
 
-  .sa-form-card-dark > * {
+  .sa-card-form > * {
     position: relative;
     z-index: 1;
   }
 
-  .sa-section-title-dark {
-    margin: 0 0 12px;
+  .sa-section-title {
+    margin: 0 0 14px;
     font-size: 16px;
     color: #f9fafb;
   }
 
-  .sa-form-grid-2col {
+  .sa-form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
   }
 
-  .sa-field-dark {
+  .sa-field {
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
-  .sa-label-dark {
+  .sa-label {
     font-size: 12px;
     color: #9ca3af;
   }
 
-  .sa-input-dark {
+  .sa-input {
     border-radius: 10px;
     border: 1px solid #1f2937;
-    padding: 7px 9px;
+    padding: 8px 10px;
     font-size: 13px;
     outline: none;
     background: #020617;
@@ -899,21 +892,21 @@ const globalDarkStyles = `
       background 0.15s ease;
   }
 
-  .sa-input-dark:focus {
+  .sa-input:focus {
     border-color: #38bdf8;
     box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
     background: #020617;
   }
 
-  .sa-field-textarea-dark {
-    margin-top: 16px;
+  .sa-field-textarea {
+    margin-top: 18px;
   }
 
-  .sa-textarea-dark {
+  .sa-textarea {
     border-radius: 12px;
     border: 1px solid #1f2937;
-    padding: 9px 10px;
-    min-height: 120px;
+    padding: 10px 11px;
+    min-height: 130px;
     resize: vertical;
     font-size: 13px;
     outline: none;
@@ -922,16 +915,16 @@ const globalDarkStyles = `
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .sa-textarea-dark:focus {
+  .sa-textarea:focus {
     border-color: #38bdf8;
     box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
   }
 
-  .sa-primary-btn-dark {
-    margin-top: 16px;
+  .sa-primary-btn {
+    margin-top: 18px;
     width: 100%;
     border-radius: 999px;
-    padding: 9px 14px;
+    padding: 10px 16px;
     border: none;
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: #022c22;
@@ -942,121 +935,121 @@ const globalDarkStyles = `
     transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
   }
 
-  .sa-primary-btn-dark:hover {
+  .sa-primary-btn:hover {
     transform: translateY(-0.5px);
     box-shadow: 0 24px 70px rgba(22,163,74,0.85);
     filter: brightness(1.05);
   }
 
-  .sa-primary-btn-dark:active {
+  .sa-primary-btn:active {
     transform: translateY(1px) scale(0.99);
     box-shadow: 0 14px 40px rgba(22,163,74,0.7);
   }
 
-  .sa-primary-btn-dark-disabled {
+  .sa-primary-btn-disabled {
     opacity: 0.7;
     cursor: default;
     box-shadow: 0 10px 30px rgba(22,163,74,0.55);
   }
 
-  .sa-msg-error-dark {
+  .sa-msg-error {
     margin-top: 10px;
     font-size: 12px;
     color: #fecaca;
   }
 
-  .sa-msg-success-dark {
+  .sa-msg-success {
     margin-top: 10px;
     font-size: 12px;
     color: #bbf7d0;
   }
 
-  .sa-help-card-dark {
-    min-height: 150px;
+  .sa-card-help {
+    min-height: 160px;
+  }
+
+  .sa-subtitle {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: #e5e7eb;
   }
 
   .sa-help-list {
-    margin: 4px 0 0;
+    margin: 0;
     padding-left: 18px;
     font-size: 12px;
     color: #9ca3af;
   }
 
-  .sa-stats-card-dark {
-    min-height: 120px;
+  .sa-tab-stack .sa-card:first-child {
+    margin-bottom: 4px;
   }
 
-  .sa-stats-grid-dark {
+  .sa-stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
   }
 
-  .sa-stat-pill-dark {
+  .sa-stat-pill {
     border-radius: 12px;
     border: 1px solid rgba(51,65,85,0.9);
     padding: 7px 8px 8px;
     background: radial-gradient(circle at top, #020617 0, #020617 60%, #020617);
   }
 
-  .sa-stat-label-dark {
+  .sa-stat-label {
     font-size: 11px;
     color: #9ca3af;
   }
 
-  .sa-stat-value-dark {
+  .sa-stat-value {
     margin-top: 4px;
     font-size: 15px;
     font-weight: 600;
     color: #e5e7eb;
   }
 
-  .sa-placeholder-dark {
+  .sa-placeholder {
     margin: 4px 0 0;
     font-size: 13px;
     color: #6b7280;
   }
 
-  .sa-placeholder-small-dark {
+  .sa-placeholder-small {
     margin: 4px 0 0;
     font-size: 12px;
     color: #6b7280;
   }
 
-  .sa-bottom-row-dark {
+  .sa-row {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-    gap: 12px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.05fr);
+    gap: 14px;
   }
 
-  .sa-subtitle-dark {
-    margin: 0 0 10px;
-    font-size: 14px;
-    color: #e5e7eb;
+  .sa-card-equity {
+    min-height: 160px;
   }
 
-  .sa-equity-card-dark {
-    min-height: 150px;
+  .sa-card-trades {
+    min-height: 160px;
   }
 
-  .sa-trades-card-dark {
-    min-height: 150px;
-  }
-
-  .sa-equity-svg-dark {
+  .sa-equity-svg {
     width: 100%;
-    height: 120px;
+    height: 140px;
   }
 
-  .sa-trades-list-dark {
-    max-height: 170px;
+  .sa-trades-list {
+    max-height: 190px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 6px;
   }
 
-  .sa-trade-row-dark {
+  .sa-trade-row {
     border-radius: 10px;
     border: 1px solid rgba(31,41,55,0.9);
     padding: 6px 8px;
@@ -1064,14 +1057,14 @@ const globalDarkStyles = `
     background: #020617;
   }
 
-  .sa-trade-main-dark {
+  .sa-trade-main {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
   }
 
-  .sa-trade-badge-dark {
+  .sa-trade-badge {
     font-size: 10px;
     padding: 2px 8px;
     border-radius: 999px;
@@ -1079,17 +1072,17 @@ const globalDarkStyles = `
     border: 1px solid transparent;
   }
 
-  .sa-trade-main-text-dark {
+  .sa-trade-main-text {
     color: #e5e7eb;
   }
 
-  .sa-trade-sub-dark {
+  .sa-trade-sub {
     margin-top: 3px;
     font-size: 11px;
     color: #9ca3af;
   }
 
-  .sa-stats-detail-grid {
+  .sa-stats-detail {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1112,36 +1105,36 @@ const globalDarkStyles = `
     font-weight: 500;
   }
 
-  @media (max-width: 1024px) {
-    .sa-shell-dark {
+  @media (max-width: 1100px) {
+    .sa-shell {
       grid-template-columns: 200px minmax(0, 1fr);
+    }
+    .sa-stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sa-row {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 
   @media (max-width: 900px) {
-    .sa-shell-dark {
+    .sa-shell {
       grid-template-columns: minmax(0, 1fr);
     }
-    .sa-sidebar-dark {
+    .sa-sidebar {
       display: none;
     }
-    .sa-tab-layout {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .sa-stats-grid-dark {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .sa-bottom-row-dark {
+    .sa-tab-grid {
       grid-template-columns: minmax(0, 1fr);
     }
   }
 
   @media (max-width: 640px) {
-    .sa-hero-card-dark {
-      padding: 32px 22px 26px;
+    .sa-hero-card {
+      padding: 34px 22px 26px;
     }
-    .sa-hero-title-dark {
-      font-size: 30px;
+    .sa-hero-title {
+      font-size: 32px;
     }
   }
 `;
